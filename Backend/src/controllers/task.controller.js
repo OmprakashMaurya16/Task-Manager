@@ -33,9 +33,22 @@ const getTasks = asyncHandler(async (req, res) => {
 
    const filter = {};
 
-   if (status) filter.status = status;
+   const allowedStatus = ["pending", "in-progress", "completed"];
+   const allowedPriority = ["low", "medium", "high"];
 
-   if (priority) filter.priority = priority;
+   if (status) {
+      if (!allowedStatus.includes(status)) {
+         throw new ApiError(400, "Invalid status value");
+      }
+      filter.status = status;
+   }
+
+   if (priority) {
+      if (!allowedPriority.includes(priority)) {
+         throw new ApiError(400, "Invalid priority value");
+      }
+      filter.priority = priority;
+   }
 
    if (req.user.role !== "admin") {
       filter.$or = [
@@ -44,9 +57,13 @@ const getTasks = asyncHandler(async (req, res) => {
       ];
    }
 
+   const allowedSortFields = ["createdAt", "dueDate", "priority"];
    const sortOptions = {};
 
    if (sortBy) {
+      if (!allowedSortFields.includes(sortBy)) {
+         throw new ApiError(400, "Invalid sort field");
+      }
       sortOptions[sortBy] = 1;
    }
 
@@ -56,7 +73,13 @@ const getTasks = asyncHandler(async (req, res) => {
 });
 
 const updateTask = asyncHandler(async (req, res) => {
-   const task = await Task.findById(req.params.id);
+   const { id } = req.params;
+
+   if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new ApiError(400, "Invalid task ID");
+   }
+
+   const task = await Task.findById(id);
 
    if (!task) {
       throw new ApiError(404, "Task not found");
@@ -72,7 +95,23 @@ const updateTask = asyncHandler(async (req, res) => {
       }
    }
 
-   Object.assign(task, req.body);
+   const allowedFields = [
+      "title",
+      "description",
+      "status",
+      "dueDate",
+      "priority",
+   ];
+
+   allowedFields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+         task[field] = req.body[field];
+      }
+   });
+
+   if (req.body.assignedTo && req.user.role === "admin") {
+      task.assignedTo = req.body.assignedTo;
+   }
 
    await task.save();
 
