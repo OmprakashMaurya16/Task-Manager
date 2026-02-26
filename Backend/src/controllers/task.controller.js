@@ -2,6 +2,7 @@ import Task from "../models/task.model.js";
 import asyncHandler from "../utils/async.handler.js";
 import ApiError from "../utils/api.error.js";
 import sendResponse from "../utils/response.helper.js";
+import mongoose from "mongoose";
 
 const createTask = asyncHandler(async (req, res) => {
    const { title, description, status, dueDate, priority, assignedTo } =
