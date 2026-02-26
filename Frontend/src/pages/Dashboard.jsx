@@ -135,12 +135,14 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <TaskForm
-            onCreate={handleCreate}
-            editingTask={editingTask}
-            onUpdate={handleUpdate}
-            onCancelEdit={() => setEditingTask(null)}
-          />
+          <div className="self-start">
+            <TaskForm
+              onCreate={handleCreate}
+              editingTask={editingTask}
+              onUpdate={handleUpdate}
+              onCancelEdit={() => setEditingTask(null)}
+            />
+          </div>
 
           <div className="lg:col-span-2">
             <TaskTable
