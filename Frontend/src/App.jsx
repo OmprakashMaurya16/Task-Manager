@@ -6,15 +6,21 @@ import ProtectedRoute from "./components/layout/ProtectedRoute";
 import useAuth from "./hooks/useAuth";
 
 function App() {
-  const { loading } = useAuth();
+  const { loading, isAuthenticated } = useAuth();
 
   if (loading) return null;
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/" /> : <Login />}
+        />
+        <Route
+          path="/register"
+          element={isAuthenticated ? <Navigate to="/" /> : <Register />}
+        />
 
         <Route
           path="/"
