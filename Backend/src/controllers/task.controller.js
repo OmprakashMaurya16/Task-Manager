@@ -7,6 +7,10 @@ const createTask = asyncHandler(async (req, res) => {
    const { title, description, status, dueDate, priority, assignedTo } =
       req.body;
 
+   if (assignedTo && req.user.role !== "admin") {
+      throw new ApiError(403, "Only admin can assign tasks");
+   }
+
    if (!title || !description) {
       throw new ApiError(400, "Title and description are required");
    }
