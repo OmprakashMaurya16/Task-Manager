@@ -1,10 +1,9 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-
 import User from "../models/user.model.js";
 import asyncHandler from "../utils/async.handler.js";
 import ApiError from "../utils/api.error.js";
 import sendResponse from "../utils/response.helper.js";
+import generateToken from "../utils/token.util.js";
 
 const register = asyncHandler(async (req, res) => {
    const { name, email, password } = req.body;
@@ -27,14 +26,7 @@ const register = asyncHandler(async (req, res) => {
       password: hashedPassword,
    });
 
-   const token = jwt.sign(
-      {
-         userId: user._id,
-         role: user.role,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-   );
+   const token = generateToken(user);
 
    return sendResponse(res, 201, "User registered successfully", {
       token,
@@ -66,14 +58,7 @@ const login = asyncHandler(async (req, res) => {
       throw new ApiError(401, "Invalid credentials");
    }
 
-   const token = jwt.sign(
-      {
-         userId: user._id,
-         role: user.role,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-   );
+   const token = generateToken(user);
 
    return sendResponse(res, 200, "User logged in successfully", {
       token,
