@@ -4,6 +4,15 @@ A full-stack task management application that allows teams to create, assign, an
 
 ---
 
+## Live Demo
+
+| Service  | URL                                                                                                 |
+| -------- | --------------------------------------------------------------------------------------------------- |
+| Frontend | [task-manager-frontend-azure-iota.vercel.app](https://task-manager-frontend-azure-iota.vercel.app/) |
+| Backend  | [task-manager-backend-s91j.onrender.com](https://task-manager-backend-s91j.onrender.com)            |
+
+---
+
 ## Technologies Used
 
 ### Backend
