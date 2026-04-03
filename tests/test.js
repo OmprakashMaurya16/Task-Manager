@@ -27,6 +27,9 @@ const chrome = require("selenium-webdriver/chrome");
       .findElement(By.name("email"))
       .sendKeys("kamraan.mulani@vit.edu.in");
     await driver.findElement(By.name("password")).sendKeys("Kamraan@123");
+    await driver
+      .findElement(By.name("confirmPassword"))
+      .sendKeys("Kamraan@123");
 
     // 5. Click submit button specifically
     await driver.findElement(By.css("button[type='submit']")).click();
