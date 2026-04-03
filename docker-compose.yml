@@ -5,15 +5,19 @@ services:
     build: ./Backend
     ports:
       - "5000:5000"
-    env_file:
-      - ./Backend/.env
+    environment:
+      PORT: "5000"
+      MONGO_URI: "mongodb://mongo:27017/task_manager"
+      JWT_SECRET: "asdfghjkl"
+      CORS_ORIGIN: "http://localhost:3000"
     depends_on:
       - mongo
 
   frontend:
-    build: ./Frontend
-    args:
-      - VITE_API_URL=http://localhost:5000
+    build:
+      context: ./Frontend
+      args:
+        VITE_API_URL: http://localhost:5000/api
     ports:
       - "3000:80"
 
