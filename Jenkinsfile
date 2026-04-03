@@ -20,5 +20,12 @@ pipeline {
                 bat 'docker-compose up -d'
             }
         }
+
+         stage('Run Selenium Tests') {
+            steps {
+                bat 'cd tests && npm install'
+                bat 'cd tests && node test.js'
+            }
+        }
     }
 }
