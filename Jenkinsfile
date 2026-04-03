@@ -5,19 +5,19 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                sh 'docker build -t task-backend ./Backend'
+                bat 'docker build -t task-backend ./Backend'
             }
         }
 
         stage('Build Frontend') {
             steps {
-                sh 'docker build -t task-frontend ./Frontend'
+                bat 'docker build -t task-frontend ./Frontend'
             }
         }
 
         stage('Run Containers') {
             steps {
-                sh 'docker-compose up -d'
+                bat 'docker-compose up -d'
             }
         }
     }
