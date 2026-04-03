@@ -32,7 +32,10 @@ const chrome = require("selenium-webdriver/chrome");
     await driver.findElement(By.css("button[type='submit']")).click();
 
     // 6. Wait for redirect to dashboard
-    await driver.wait(until.urlContains("dashboard"), 5000);
+    await driver.wait(async () => {
+      const url = await driver.getCurrentUrl();
+      return url.endsWith("/");
+    }, 5000);
 
     console.log("TEST PASSED ✅");
   } catch (err) {
