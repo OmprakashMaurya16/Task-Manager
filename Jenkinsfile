@@ -3,19 +3,13 @@ pipeline {
 
     stages {
 
-        stage('Clone') {
-            steps {
-                git 'https://github.com/OmprakashMaurya16/Task-Manager.git'
-            }
-        }
-
-        stage('Build Backend Image') {
+        stage('Build Backend') {
             steps {
                 sh 'docker build -t task-backend ./Backend'
             }
         }
 
-        stage('Build Frontend Image') {
+        stage('Build Frontend') {
             steps {
                 sh 'docker build -t task-frontend ./Frontend'
             }
